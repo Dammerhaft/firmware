@@ -1,0 +1,38 @@
+
+name: Hybrid RX - Heltec V3
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - hybrid-rx
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout firmware
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PlatformIO
+        run: python -m pip install platformio
+
+      - name: Build firmware
+        run: pio run -e heltec-v3
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: hybrid-rx-heltec-v3
+          path: .pio/build/heltec-v3/firmware.bin
+          if-no-files-found: error
+          retention-days: 30
