@@ -45,9 +45,8 @@ bool NodeInfoModule::handleReceivedProtobuf(const meshtastic_MeshPacket &mp, mes
         pruneLastNodeInfoCache();
     }
 
-    if (p.is_licensed != owner.is_licensed) {
-        LOG_WARN("Invalid nodeInfo detected, is_licensed mismatch");
-        return true;
+if (p.is_licensed != owner.is_licensed) {
+    LOG_WARN("Hybrid RX: accepting NodeInfo with different license status");
     }
     NodeNum sourceNum = getFrom(&mp);
     // Broadcasts only: a unicast NodeInfo may be a reply TrafficManagement sent on the node's behalf,
