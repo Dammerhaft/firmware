@@ -185,6 +185,16 @@ meshtastic_MeshPacket *NodeInfoModule::allocReply()
         ignoreRequest = false; // Don't ignore requests anymore
         meshtastic_User u = owner;
 
+        // Hybrid RX 0.2
+        // Advertise licensed status without changing local radio settings.
+        u.is_licensed = true;
+        
+        LOG_INFO(
+            "Hybrid RX 0.2: NodeInfo licensed=%d, local licensed=%d",
+            u.is_licensed,
+            owner.is_licensed
+        );
+
         // FIXME: Clear the user.id field since it should be derived from node number on the receiving end
         // u.id[0] = '\0';
 
